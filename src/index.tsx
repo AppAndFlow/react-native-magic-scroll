@@ -1,3 +1,13 @@
-export function multiply(a: number, b: number): Promise<number> {
-  return Promise.resolve(a * b);
-}
+import SmartScrollView, { useFormSmartScroll, ScrollView } from './Provider';
+import { TextInput } from './TextInput';
+import ViewWrapper from './ViewWrapper';
+import { withSmartScroll } from './withSmartScroll';
+
+export const SmartScroll = {
+  useFormSmartScroll,
+  ScrollView,
+  ViewWrapper,
+  TextInput,
+  withSmartScroll,
+  SmartScrollView,
+};

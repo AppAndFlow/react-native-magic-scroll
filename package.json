@@ -1,6 +1,6 @@
 {
   "name": "@appandflow/rn-magic-scroll",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Library to help managing keyboard interaction in form",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -69,6 +69,7 @@
     "react": "18.2.0",
     "react-native": "0.73.6",
     "react-native-builder-bob": "^0.23.2",
+    "react-native-reanimated": "^3.11.0",
     "release-it": "^15.0.0",
     "typescript": "^5.2.2"
   },
@@ -77,7 +78,8 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-reanimated": "^3.0.0"
   },
   "workspaces": [
     "example"
@@ -128,7 +130,8 @@
           "trailingComma": "es5",
           "useTabs": false
         }
-      ]
+      ],
+      "react-hooks/exhaustive-deps": "off"
     }
   },
   "eslintIgnore": [
@@ -155,5 +158,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "jotai": "^2.8.0"
   }
 }
