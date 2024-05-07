@@ -3,7 +3,7 @@ import { TextInput } from './TextInput';
 import ViewWrapper from './ViewWrapper';
 import { withSmartScroll } from './withSmartScroll';
 
-export const SmartScroll = {
+export const MagicScroll = {
   useFormSmartScroll,
   ScrollView,
   ViewWrapper,

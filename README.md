@@ -15,7 +15,7 @@ npm i @appandflow/rn-magic-scroll
 Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose.
 
 ```tsx
-import MagicScroll from '@appandflow/rn-magic-scroll';
+import { MagicScroll } from '@appandflow/rn-magic-scroll';
 
 // rest of your imports
 
@@ -34,7 +34,7 @@ export default MagicScroll.withSmartScroll(YourScreen);
 Then inside your form/component you can use our TextInput.
 
 ```tsx
-import MagicScroll from '@appandflow/rn-magic-scroll';
+import { MagicScroll } from '@appandflow/rn-magic-scroll';
 
 // rest of your imports
 
@@ -83,7 +83,7 @@ We encourage you to wrap our TextInput with your custom one.
 Here an example
 
 ```tsx
-import MagicScroll from '@appandflow/rn-magic-scroll';
+import { MagicScroll } from '@appandflow/rn-magic-scroll';
 
 // rest of your imports
 
