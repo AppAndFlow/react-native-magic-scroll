@@ -1,6 +1,6 @@
 {
   "name": "@appandflow/rn-magic-scroll",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Library to help managing keyboard interaction in form",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
