@@ -61,7 +61,7 @@ export function ScrollView(
   }>
 ) {
   const { scrollHandler, scrollRef, baseScrollViewProps, translateStyle } =
-    useFormSmartScroll({padding: props?.additionalPadding});
+    useFormSmartScroll({ padding: props?.additionalPadding });
 
   return (
     <Animated.ScrollView
