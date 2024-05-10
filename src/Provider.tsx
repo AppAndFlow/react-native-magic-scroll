@@ -57,10 +57,11 @@ export default function SmartScrollView(props: PropsWithChildren<{}>) {
 export function ScrollView(
   props: PropsWithChildren<{
     scollViewProps?: AnimatedScrollViewProps;
+    additionalPadding?: number;
   }>
 ) {
   const { scrollHandler, scrollRef, baseScrollViewProps, translateStyle } =
-    useFormSmartScroll();
+    useFormSmartScroll({ padding: props?.additionalPadding });
 
   return (
     <Animated.ScrollView
