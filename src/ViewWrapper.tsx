@@ -20,7 +20,8 @@ const ViewWrapper = ({ name, style, children }: Props) => {
     <View
       ref={ref}
       style={style}
-      onLayout={() => {
+      onLayout={({ nativeEvent }) => {
+        const element = state[name];
         if (mainViewRef && !state[name]) {
           ref.current?.measureLayout(mainViewRef, (_, y, _w, h) => {
             setState((s) => ({
@@ -33,6 +34,14 @@ const ViewWrapper = ({ name, style, children }: Props) => {
                 name: name,
               },
             }));
+          });
+        } else if (element) {
+          setState({
+            ...state,
+            [name]: {
+              ...element,
+              height: nativeEvent.layout.height,
+            },
           });
         }
       }}
