@@ -18,5 +18,6 @@ export type Elements = Record<
 export type InputType = Record<string, RefObject<TextInput>>;
 
 export const elementsAtom = atom<Elements>({});
-export const mainViewRefAtom = atom<View | null>(null);
+export const wrapperViewRefAtom = atom<View | null>(null);
+export const wrapperOffsetAtom = atom(0);
 export const inputsAtom = atom<InputType>({});

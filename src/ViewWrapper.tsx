@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { View } from 'react-native';
 import type { ViewStyle } from 'react-native';
 import { useAtom, useAtomValue } from 'jotai';
-import { elementsAtom, mainViewRefAtom } from './state';
+import { elementsAtom, wrapperViewRefAtom } from './state';
 
 type Props = PropsWithChildren<{
   name: string;
@@ -11,7 +11,7 @@ type Props = PropsWithChildren<{
 }>;
 
 const ViewWrapper = ({ name, style, children }: Props) => {
-  const mainViewRef = useAtomValue(mainViewRefAtom);
+  const wrapperViewRef = useAtomValue(wrapperViewRefAtom);
   const [state, setState] = useAtom(elementsAtom);
 
   const ref = useRef<View>(null);
@@ -22,8 +22,8 @@ const ViewWrapper = ({ name, style, children }: Props) => {
       style={style}
       onLayout={({ nativeEvent }) => {
         const element = state[name];
-        if (mainViewRef && !state[name]) {
-          ref.current?.measureLayout(mainViewRef, (_, y, _w, h) => {
+        if (wrapperViewRef && !state[name]) {
+          ref.current?.measureLayout(wrapperViewRef, (_, y, _w, h) => {
             setState((s) => ({
               ...s,
               [name]: {

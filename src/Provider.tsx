@@ -20,21 +20,44 @@ import {
   type TextInputProps,
   View,
   StyleSheet,
+  useWindowDimensions,
 } from 'react-native';
-import { Provider, useAtom, useAtomValue, useSetAtom } from 'jotai/react';
+import {
+  Provider as JotaiProvider,
+  useAtom,
+  useAtomValue,
+  useSetAtom,
+} from 'jotai/react';
 import { selectAtom } from 'jotai/utils';
 import { Platform } from 'react-native';
 
-import { elementsAtom, inputsAtom, mainViewRefAtom } from './state';
+import {
+  elementsAtom,
+  inputsAtom,
+  wrapperOffsetAtom,
+  wrapperViewRefAtom,
+} from './state';
 import { useKeyboard } from './useKeyboard';
 
 const isAndroid = Platform.OS === 'android';
 
 function Wrapper(props: PropsWithChildren<{}>) {
-  const setMainViewRefAtom = useSetAtom(mainViewRefAtom);
+  const setWrapperViewRefAtom = useSetAtom(wrapperViewRefAtom);
+  const setWrapperOffsetAtom = useSetAtom(wrapperOffsetAtom);
+  const windowDimensions = useWindowDimensions();
 
   return (
-    <View style={styles.wrapper} ref={setMainViewRefAtom}>
+    <View
+      style={styles.wrapper}
+      ref={setWrapperViewRefAtom}
+      onLayout={({ nativeEvent }) => {
+        if (nativeEvent.layout.height < windowDimensions.height) {
+          setWrapperOffsetAtom(
+            windowDimensions.height - nativeEvent.layout.height
+          );
+        }
+      }}
+    >
       {props.children}
     </View>
   );
@@ -48,9 +71,9 @@ const styles = StyleSheet.create({
 
 export default function SmartScrollView(props: PropsWithChildren<{}>) {
   return (
-    <Provider>
+    <JotaiProvider>
       <Wrapper {...props} />
-    </Provider>
+    </JotaiProvider>
   );
 }
 
@@ -86,6 +109,7 @@ export function useFormSmartScroll({
 }: {
   padding?: number;
 } = {}) {
+  const wrapperOffset = useAtomValue(wrapperOffsetAtom);
   const scrollY = useSharedValue(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
@@ -118,7 +142,7 @@ export function useFormSmartScroll({
       }
 
       if (
-        currentFocus.position >
+        currentFocus.position + wrapperOffset >
         _keyboard.coordinates.end.screenY - currentFocus.height + scrollY.value
       ) {
         const diff = Math.abs(
@@ -126,7 +150,8 @@ export function useFormSmartScroll({
             currentFocus.position -
             currentFocus.height -
             padding +
-            scrollY.value
+            scrollY.value -
+            wrapperOffset
         );
 
         return -diff;
