@@ -10,6 +10,20 @@ yarn install @appandflow/rn-magic-scroll
 npm i @appandflow/rn-magic-scroll
 ```
 
+### Android
+
+On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManifest.xml` to **pan**
+
+##### Expo
+
+```json
+// app.json
+"android": {
+  ...rest,
+  "softwareKeyboardLayoutMode": "pan"
+}
+```
+
 ## Basic Usage
 
 Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose.

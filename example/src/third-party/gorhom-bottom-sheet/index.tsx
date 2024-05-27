@@ -19,10 +19,8 @@ const Form = () => {
         contentContainerStyle: {
           paddingHorizontal: 16,
           paddingBottom: insets.bottom + 20,
-          backgroundColor: 'red',
           paddingTop: 100,
         },
-        style: { backgroundColor: 'blue' },
       }}
     >
       <MagicScroll.TextInput

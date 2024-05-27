@@ -7,7 +7,6 @@ import React, {
 import Animated, {
   scrollTo,
   useAnimatedRef,
-  useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
@@ -83,12 +82,12 @@ export function ScrollView(
     additionalPadding?: number;
   }>
 ) {
-  const { scrollHandler, scrollRef, baseScrollViewProps, translateStyle } =
-    useFormSmartScroll({ padding: props?.additionalPadding });
+  const { scrollRef, baseScrollViewProps, translateStyle } = useFormSmartScroll(
+    { padding: props?.additionalPadding }
+  );
 
   return (
     <Animated.ScrollView
-      onScroll={scrollHandler}
       ref={scrollRef}
       {...baseScrollViewProps}
       {...props.scollViewProps}
@@ -114,12 +113,6 @@ export function useFormSmartScroll({
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   const _keyboard = useKeyboard();
-
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollY.value = event.contentOffset.y;
-    },
-  });
 
   const setState = useSetAtom(elementsAtom);
   const [inputs, setInputs] = useAtom(inputsAtom);
@@ -189,7 +182,7 @@ export function useFormSmartScroll({
   );
 
   useDerivedValue(() => {
-    scrollTo(scrollRef, 0, scrollY.value, true);
+    scrollTo(scrollRef, 0, scrollY.value, false);
   });
 
   const onFocus = useCallback(
@@ -265,7 +258,6 @@ export function useFormSmartScroll({
     registerInput,
     chainInput,
     translateStyle,
-    scrollHandler,
     scrollRef,
     baseScrollViewProps,
     baseTextInputProps,
