@@ -125,10 +125,10 @@ export function useFormSmartScroll({
 
       if (isAndroid) {
         if (
-          currentFocus.position >
+          currentFocus.position + wrapperOffset >
           _keyboard.coordinates.end.screenY - currentFocus.height * 2
         ) {
-          return -Math.abs(currentFocus.height / 4);
+          return -currentFocus.height;
         }
 
         return 0;
