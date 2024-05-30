@@ -26,7 +26,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace @appandflow/rn-magic-scroll-example",
+    "example": "yarn workspace @appandflow/react-native-magic-scroll-example",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
@@ -41,14 +41,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AppAndFlow/rn-magic-scroll.git"
+    "url": "git+https://github.com/AppAndFlow/react-native-magic-scroll.git"
   },
-  "author": "Emanuel Quimper <quimperemanuel@gmail.com> (https://github.com/AppAndFlow/rn-magic-scroll)",
+  "author": "Emanuel Quimper <quimperemanuel@gmail.com> (https://github.com/AppAndFlow/react-native-magic-scroll)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/AppAndFlow/rn-magic-scroll/issues"
+    "url": "https://github.com/AppAndFlow/react-native-magic-scroll/issues"
   },
-  "homepage": "https://github.com/AppAndFlow/rn-magic-scroll#readme",
+  "homepage": "https://github.com/AppAndFlow/react-native-magic-scroll#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
