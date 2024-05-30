@@ -1,5 +1,5 @@
 {
-  "name": "@appandflow/rn-magic-scroll",
+  "name": "@appandflow/react-native-magic-scroll",
   "version": "0.1.11",
   "description": "Library to help managing keyboard interaction in form",
   "main": "lib/commonjs/index",
