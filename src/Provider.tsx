@@ -128,7 +128,11 @@ export function useFormSmartScroll({
           currentFocus.position + wrapperOffset >
           _keyboard.coordinates.end.screenY - currentFocus.height * 2
         ) {
-          return -currentFocus.height;
+          if (wrapperOffset) {
+            return -Math.abs(currentFocus.height + wrapperOffset);
+          }
+
+          return -Math.abs(currentFocus.height / 4);
         }
 
         return 0;
