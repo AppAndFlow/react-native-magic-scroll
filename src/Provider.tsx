@@ -76,7 +76,7 @@ export default function SmartScrollView(props: PropsWithChildren<{}>) {
   );
 }
 
-export function ScrollView(
+function InsideScrollView(
   props: PropsWithChildren<{
     scollViewProps?: AnimatedScrollViewProps;
     additionalPadding?: number;
@@ -96,6 +96,18 @@ export function ScrollView(
     </Animated.ScrollView>
   );
 }
+export const ScrollView = (
+  props: PropsWithChildren<{
+    scollViewProps?: AnimatedScrollViewProps;
+    additionalPadding?: number;
+  }>
+) => {
+  return (
+    <SmartScrollView>
+      <InsideScrollView {...props} />
+    </SmartScrollView>
+  );
+};
 
 const currentFocusAtom = selectAtom(elementsAtom, (val) =>
   Object.keys(val)

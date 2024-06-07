@@ -10,88 +10,8 @@ import {
 import { MagicScroll } from '../../../../src';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const Form = () => {
-  const insets = useSafeAreaInsets();
-
-  return (
-    <MagicScroll.ScrollView
-      scollViewProps={{
-        contentContainerStyle: {
-          paddingHorizontal: 16,
-          paddingBottom: insets.bottom + 20,
-          paddingTop: 100,
-        },
-      }}
-    >
-      <MagicScroll.TextInput
-        name="username"
-        textInputProps={{
-          placeholder: 'Username',
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 6,
-            paddingHorizontal: 16,
-          },
-        }}
-      />
-      <MagicScroll.TextInput
-        name="first_name"
-        containerStyle={{ marginTop: 8 }}
-        textInputProps={{
-          placeholder: 'First Name',
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 6,
-            paddingHorizontal: 16,
-          },
-        }}
-      />
-      <MagicScroll.TextInput
-        name="last_name"
-        containerStyle={{ marginTop: 8 }}
-        textInputProps={{
-          placeholder: 'Last Name',
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 6,
-            paddingHorizontal: 16,
-          },
-        }}
-      />
-      <MagicScroll.TextInput
-        name="email"
-        containerStyle={{ marginTop: 8 }}
-        textInputProps={{
-          placeholder: 'Email',
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 6,
-            paddingHorizontal: 16,
-          },
-        }}
-      />
-      <MagicScroll.TextInput
-        name="password"
-        containerStyle={{ marginTop: 8 }}
-        textInputProps={{
-          placeholder: 'Password',
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 6,
-            paddingHorizontal: 16,
-          },
-        }}
-      />
-    </MagicScroll.ScrollView>
-  );
-};
-
 const Example = () => {
+  const insets = useSafeAreaInsets();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const snapPoints = useMemo(() => ['25%', '80%'], []);
@@ -127,9 +47,80 @@ const Example = () => {
         enablePanDownToClose
       >
         <BottomSheetView style={[styles.contentContainer]}>
-          <MagicScroll.SmartScrollView>
-            <Form />
-          </MagicScroll.SmartScrollView>
+          <MagicScroll.ScrollView
+            scollViewProps={{
+              contentContainerStyle: {
+                paddingHorizontal: 16,
+                paddingBottom: insets.bottom + 20,
+                paddingTop: 100,
+              },
+            }}
+          >
+            <MagicScroll.TextInput
+              name="username"
+              textInputProps={{
+                placeholder: 'Username',
+                style: {
+                  height: 50,
+                  backgroundColor: '#ddd',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                },
+              }}
+            />
+            <MagicScroll.TextInput
+              name="first_name"
+              containerStyle={{ marginTop: 8 }}
+              textInputProps={{
+                placeholder: 'First Name',
+                style: {
+                  height: 50,
+                  backgroundColor: '#ddd',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                },
+              }}
+            />
+            <MagicScroll.TextInput
+              name="last_name"
+              containerStyle={{ marginTop: 8 }}
+              textInputProps={{
+                placeholder: 'Last Name',
+                style: {
+                  height: 50,
+                  backgroundColor: '#ddd',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                },
+              }}
+            />
+            <MagicScroll.TextInput
+              name="email"
+              containerStyle={{ marginTop: 8 }}
+              textInputProps={{
+                placeholder: 'Email',
+                style: {
+                  height: 50,
+                  backgroundColor: '#ddd',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                },
+              }}
+            />
+            <MagicScroll.TextInput
+              name="password"
+              containerStyle={{ marginTop: 8 }}
+              textInputProps={{
+                placeholder: 'Password',
+                style: {
+                  height: 50,
+                  backgroundColor: '#ddd',
+                  borderRadius: 6,
+                  paddingHorizontal: 16,
+                },
+              }}
+            />
+          </MagicScroll.ScrollView>
         </BottomSheetView>
       </BottomSheetModal>
     </View>
