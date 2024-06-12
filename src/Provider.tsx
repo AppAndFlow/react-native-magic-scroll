@@ -37,7 +37,6 @@ import {
   wrapperViewRefAtom,
 } from './state';
 import { useKeyboard } from './useKeyboard';
-import { createStore } from 'jotai';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -69,13 +68,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const store = createStore();
-
-store.set(inputsAtom, {});
-
 export default function SmartScrollView(props: PropsWithChildren<{}>) {
   return (
-    <JotaiProvider store={store}>
+    <JotaiProvider>
       <Wrapper {...props} />
     </JotaiProvider>
   );
@@ -132,7 +127,7 @@ export function useFormSmartScroll({
   const _keyboard = useKeyboard();
 
   const setState = useSetAtom(elementsAtom);
-  const [inputs, setInputs] = useAtom(inputsAtom, { store });
+  const [inputs, setInputs] = useAtom(inputsAtom);
 
   const currentFocus = useAtomValue(currentFocusAtom);
 

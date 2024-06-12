@@ -11,6 +11,7 @@ type Props = {
   name?: string;
   renderTop?: () => React.ReactElement;
   renderBottom?: () => React.ReactElement;
+  chainable?: string;
 };
 
 export const TextInput = (props: Props) => {
@@ -18,9 +19,11 @@ export const TextInput = (props: Props) => {
   const name = React.useRef(props.name ?? id);
   const textInputRef = React.useRef<RNTextInput>(null);
 
-  const { onBlur, onFocus, ...textInputProps } = props.textInputProps ?? {};
+  const { onBlur, onFocus, onSubmitEditing, ...textInputProps } =
+    props.textInputProps ?? {};
 
-  const { registerInput, baseTextInputProps } = useFormSmartScroll();
+  const { registerInput, baseTextInputProps, chainInput } =
+    useFormSmartScroll();
 
   React.useEffect(() => {
     registerInput(name.current, textInputRef);
@@ -33,6 +36,13 @@ export const TextInput = (props: Props) => {
         ref={textInputRef}
         {...baseTextInputProps(name.current, { onFocus, onBlur })}
         {...textInputProps}
+        onSubmitEditing={(e) => {
+          if (props.chainable) {
+            chainInput(props.chainable);
+          }
+
+          onSubmitEditing?.(e);
+        }}
       />
       {props.renderBottom?.()}
     </ViewWrapper>
