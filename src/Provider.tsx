@@ -37,6 +37,7 @@ import {
   wrapperViewRefAtom,
 } from './state';
 import { useKeyboard } from './useKeyboard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const isAndroid = Platform.OS === 'android';
 
@@ -120,6 +121,7 @@ export function useFormSmartScroll({
 }: {
   padding?: number;
 } = {}) {
+  const insets = useSafeAreaInsets();
   const wrapperOffset = useAtomValue(wrapperOffsetAtom);
   const scrollY = useSharedValue(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
@@ -141,14 +143,15 @@ export function useFormSmartScroll({
           _keyboard.coordinates.end.screenY - currentFocus.height * 2
         ) {
           if (wrapperOffset) {
-            const diff = Math.abs(
-              _keyboard.coordinates.end.screenY -
-                currentFocus.position -
-                currentFocus.height -
-                padding +
-                scrollY.value -
-                wrapperOffset
-            );
+            const diff =
+              Math.abs(
+                _keyboard.coordinates.end.screenY -
+                  currentFocus.position -
+                  currentFocus.height -
+                  padding +
+                  scrollY.value -
+                  wrapperOffset
+              ) + insets.top;
             return -diff;
           }
 
