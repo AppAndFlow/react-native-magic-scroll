@@ -30,7 +30,7 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 
 ## Basic Usage
 
-Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose.
+Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose. For better results, we recommand using safeAreaProvider from React Native. 
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
