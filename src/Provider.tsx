@@ -79,7 +79,7 @@ export default function SmartScrollView(props: PropsWithChildren<{}>) {
 
 function InsideScrollView(
   props: PropsWithChildren<{
-    scollViewProps?: AnimatedScrollViewProps;
+    scrollViewProps?: AnimatedScrollViewProps;
     additionalPadding?: number;
   }>
 ) {
@@ -91,7 +91,7 @@ function InsideScrollView(
     <Animated.ScrollView
       ref={scrollRef}
       {...baseScrollViewProps}
-      {...props.scollViewProps}
+      {...props.scrollViewProps}
     >
       <Animated.View style={translateStyle}>{props.children}</Animated.View>
     </Animated.ScrollView>
@@ -99,7 +99,7 @@ function InsideScrollView(
 }
 export const ScrollView = (
   props: PropsWithChildren<{
-    scollViewProps?: AnimatedScrollViewProps;
+    scrollViewProps?: AnimatedScrollViewProps;
     additionalPadding?: number;
   }>
 ) => {

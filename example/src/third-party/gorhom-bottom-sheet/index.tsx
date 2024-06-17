@@ -48,7 +48,7 @@ const Example = () => {
       >
         <BottomSheetView style={[styles.contentContainer]}>
           <MagicScroll.ScrollView
-            scollViewProps={{
+            scrollViewProps={{
               contentContainerStyle: {
                 paddingHorizontal: 16,
                 paddingBottom: insets.bottom + 20,
