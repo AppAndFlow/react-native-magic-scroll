@@ -4,7 +4,7 @@ The objective of the library is to ease the discomfort of scrolling by implement
 
 We re-implemented 2 flows from existing apps to showcase our library.
 
-| Twitch's sign up  | Shop's check Out |
+| Twitch's sign up  | Shop's check out |
 | ------------- | ------------- |
 | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/c1e2b9f4-f66d-4aaf-a57d-9eb4b89400e9">  | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/4d1a23f2-c55e-414f-a564-4883dfc2c3aa">|
 
