@@ -2,7 +2,9 @@
 
 The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues when they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
 
-
+| Authentication  | Check Out |
+| ------------- | ------------- |
+| <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/c1e2b9f4-f66d-4aaf-a57d-9eb4b89400e9">  | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/4d1a23f2-c55e-414f-a564-4883dfc2c3aa">|
 
 ## Installation
 
@@ -20,7 +22,7 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 
 ##### Expo
 
-```json
+```
 // app.json
 "android": {
   ...rest,
@@ -28,9 +30,23 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 }
 ```
 
+## Dependencies
+
+In order to make our library work to it's fullest, we recommend adding these two dependencies to your project.
+
+### React Native Reanimated
+
+Reanimated is crucial in your project to make our magic sccrolling work properly.
+Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
+
+### Expo's SafeAreaContext
+
+The SafeAreaProvider is really important for this library by helping it knowing the right dimensions of the device's safe area insets.
+Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sdk/safe-area-context/).
+
 ## Basic Usage
 
-Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose. For better results, we recommand using safeAreaProvider from React Native. 
+Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose. 
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
@@ -102,7 +118,7 @@ As mentioned in the introduction, the drawback of a plug-and-play library is its
 
 We encourage you to wrap our TextInput with your custom one.
 
-Here an example
+Here's an example
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
