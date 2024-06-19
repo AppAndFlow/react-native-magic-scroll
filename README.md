@@ -12,13 +12,13 @@ The objective of the library is to ease the discomfort of scrolling by implement
 
 In order to use our library, you will need to install these two dependencies to your project.
 
-**React Native Reanimated**
+**1) React Native Reanimated**
 
 `npx expo install react-native-reanimated`
 
 Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
 
-**SafeAreaContext**
+**2) SafeAreaContext**
 
 `npx expo install react-native-safe-area-context`
 
