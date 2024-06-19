@@ -1,5 +1,7 @@
 ![image](https://cdn.discordapp.com/attachments/1233084704295751750/1252345604571398288/Github_Banner.png?ex=6671e13b&is=66708fbb&hm=ff3de0eb88407a5f8b0092333786004907aeb3f3369ea593e3eb3d77ee25e599&)
 
+[![npm (scoped)](https://img.shields.io/npm/v/@appandflow/rn-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/rn-magic-scroll)
+
 The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues when they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
 
 We re-implemented 2 flows from existing apps to showcase our library.
