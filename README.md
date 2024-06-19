@@ -2,7 +2,7 @@
 
 [![npm (scoped)](https://img.shields.io/npm/v/@appandflow/rn-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/rn-magic-scroll)
 
-The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues when they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
+The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues as they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
 
 We re-implemented two flows from existing apps to showcase our library.
 
@@ -14,7 +14,7 @@ We re-implemented two flows from existing apps to showcase our library.
 
 ### Dependencies
 
-In order to use our library, you will need to install these two dependencies to your project.
+To use our library, you will need to install these two dependencies into your project.
 
 **1) React Native Reanimated**
 
@@ -56,7 +56,7 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 
 ## Basic Usage
 
-Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs. Alternatively, you can employ the Higher Order Component (HOC) for this purpose. 
+Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs, or alternatively, you can employ the Higher Order Component (HOC) for this purpose.
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
@@ -122,7 +122,7 @@ const YourForm = () => {
 
 ## Advance usage
 
-As mentioned in the introduction, the drawback of a plug-and-play library is its limitations when you need to deviate from the standard functionality. That's precisely why our library allows for customization, enabling you to tailor its usage to suit your specific needs and use cases.
+As mentioned in the introduction, the drawback of a plug-and-play library lies in its limitations when deviating from standard functionality. That's precisely why our library allows for customization, enabling you to tailor its usage to suit your specific needs and use cases.
 
 ## Tips
 
@@ -170,7 +170,7 @@ Scrollview props:
 
 | Name | Description | Values |
 | ---- | ----------- | ------ |
-| additionalPadding | a number that will add extra padding between your text input and the keyboard | number |
+| additionalPadding | adds extra padding between your text input and the keyboard | number |
 | scrollViewProps | contains all props of the scrollview from React's Reanimated library | |
 
 Text Input props:
