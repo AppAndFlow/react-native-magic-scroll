@@ -2,7 +2,7 @@
 
 The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues when they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
 
-We re-implemented 2 flows from existing apps to showcase our librairy.
+We re-implemented 2 flows from existing apps to showcase our library.
 
 | Twitch's sign up  | Shop's check Out |
 | ------------- | ------------- |
