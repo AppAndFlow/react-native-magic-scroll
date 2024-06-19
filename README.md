@@ -8,6 +8,24 @@ The objective of the library is to ease the discomfort of scrolling by implement
 
 ## Installation
 
+### Dependencies
+
+In order to use our library, you will need to install these two dependencies to your project.
+
+**React Native Reanimated**
+
+`npx expo install react-native-reanimated`
+
+Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
+
+**SafeAreaContext**
+
+`npx expo install react-native-safe-area-context`
+
+Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sdk/safe-area-context/).
+
+### react-native-magic-scroll
+
 ```sh
 yarn install @appandflow/react-native-magic-scroll
 ```
@@ -30,19 +48,7 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 }
 ```
 
-## Dependencies
 
-In order to make our library work to it's fullest, we recommend adding these two dependencies to your project.
-
-### React Native Reanimated
-
-Reanimated is crucial in your project to make our magic sccrolling work properly.
-Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
-
-### Expo's SafeAreaContext
-
-The SafeAreaProvider is really important for this library by helping it knowing the right dimensions of the device's safe area insets.
-Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sdk/safe-area-context/).
 
 ## Basic Usage
 
