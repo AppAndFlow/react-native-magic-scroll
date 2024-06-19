@@ -178,5 +178,5 @@ Text Input props:
 | name | a string to name the current text input, used in the "chainable" props mentionned above | string |
 | renderBottom() | a function that renders components to display custom text under the text input | ```renderBottom={() => <Text>bottomText</Text>}``` |
 | renderTop() | a function that renders components to display custom text above the text input | ```renderTop={() => <Text>topText</Text>}``` |
-| textInputProps | contains all props of the TextInput component from React Native | |
+| textInputProps | contains all props of the TextInput component from [React Native](https://reactnative.dev/docs/textinput#props)  | |
 
