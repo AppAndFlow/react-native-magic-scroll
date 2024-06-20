@@ -4,29 +4,13 @@
 
 The objective of the library is to ease the discomfort of scrolling by implementing keyboard management for user input. While another solution offered plug-and-play functionality, we opted against it because it lacked the flexibility to address issues as they arise. We believe our approach will empower you to resolve any challenges your app may encounter.
 
-We re-implemented two flows from existing apps to showcase our library.
+We recreated two flows from existing apps to showcase our library.
 
 | Twitch's sign up  | Shop's check out |
 | ------------- | ------------- |
 | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/c1e2b9f4-f66d-4aaf-a57d-9eb4b89400e9">  | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/4d1a23f2-c55e-414f-a564-4883dfc2c3aa">|
 
 ## Installation
-
-### Dependencies
-
-To use our library, you will need to install these two dependencies into your project.
-
-**1) React Native Reanimated**
-
-`npx expo install react-native-reanimated`
-
-Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
-
-**2) SafeAreaContext**
-
-`npx expo install react-native-safe-area-context`
-
-Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sdk/safe-area-context/).
 
 ### react-native-magic-scroll
 
@@ -37,6 +21,26 @@ yarn install @appandflow/react-native-magic-scroll
 ```sh
 npm i @appandflow/react-native-magic-scroll
 ```
+
+### Dependencies
+
+To use our library, you will need to install these two dependencies into your project.
+
+**1) React Native Reanimated**
+
+```sh
+npx expo install react-native-reanimated
+```
+
+Learn more about this dependency [here](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started).
+
+**2) SafeAreaContext**
+
+```sh
+npx expo install react-native-safe-area-context
+```
+
+Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sdk/safe-area-context/).
 
 ### Android
 
@@ -56,7 +60,7 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 
 ## Basic Usage
 
-Wrap your form/screen within our ScrollView. Utilizing context requires it to be one level higher for enhanced control over your inputs, or alternatively, you can employ the Higher Order Component (HOC) for this purpose.
+Wrap your form/screen within our ScrollView. 
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
