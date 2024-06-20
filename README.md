@@ -3,7 +3,7 @@
 ### About
 App & Flow is a Montreal-based, close-knit team that specializes in React Native and Expo development. We work with multiple YC-backed startups and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
 
-[![npm (scoped)](https://img.shields.io/npm/v/@appandflow/rn-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/rn-magic-scroll)
+[![npm (scoped)](https://img.shields.io/npm/v/@appandflow/react-native-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/react-native-magic-scroll)
 
 ## Why react-native-magic-scroll?
 The goal of the library is to seamlessly and precisely handle your keyboard, scrollview and inputs when interacting with forms. While other solutions offer plug-and-play functionalities, we wanted to have something more precise and with more flexibility so that it can be used in any situation.
