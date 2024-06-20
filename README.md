@@ -6,7 +6,7 @@ App & Flow is a Montreal-based, close-knit team that specializes in React Native
 [![npm (scoped)](https://img.shields.io/npm/v/@appandflow/rn-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/rn-magic-scroll)
 
 ## Why react-native-magic-scroll?
-The goal of the library is to seamlessly and precisely handle your keyboard, scrollview and inputs when interacing with forms. While other solutions offer plug-and-play functionalities, we wanted to have something more precise and with more flexibility so that it can be used in any situation.
+The goal of the library is to seamlessly and precisely handle your keyboard, scrollview and inputs when interacting with forms. While other solutions offer plug-and-play functionalities, we wanted to have something more precise and with more flexibility so that it can be used in any situation.
 
 ### Examples
 We recreated two flows from popular apps to showcase our library in action.
@@ -52,7 +52,7 @@ Learn more about this dependency [here](https://docs.expo.dev/versions/latest/sd
 
 On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManifest.xml` to **pan**
 
-##### Expo
+#### Expo
 
 ```
 // app.json
@@ -83,7 +83,7 @@ const YourScreen = () => {
 export default YourScreen;
 ```
 
-You then use our TextInputs for the form itself, that you place inside the MagicScroll.ScrollView. Easily "chain" your input (so that return keyboard button hops to the next desired input) by using the MagicScroll.TextInput `name` and `chainTo` props, like so:
+You then use our TextInputs for the form itself, that you place inside the MagicScroll.ScrollView. Easily "chain" your inputs (so that the return keyboard button hops to the next desired input) by using the MagicScroll.TextInput `name` and `chainTo` props, like so:
 
 ```tsx
 import { MagicScroll } from '@appandflow/react-native-magic-scroll';
@@ -132,7 +132,7 @@ As mentioned in the introduction, the drawbacks of a plug-and-play library are i
 
 ## Tips
 
-We encourage you to wrap our TextInput with your custom one.
+It's a great idea to wrap our MagicScroll.TextInput within your own for re-usability!
 
 Here's an example
 
