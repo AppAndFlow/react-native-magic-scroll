@@ -170,23 +170,24 @@ const YourCustomInput = (props: Props) => {
 };
 ```
 
-## Props
+## Props (Optional)
+All of these props are optional. It is, however, recommended to use them to get the most out of the library. 
 
 #### MagicScroll.ScrollView:
 
 | Name | Description | Values |
 | ---- | ----------- | ------ |
-| additionalPadding (optional) | adds extra padding between your text input and the keyboard | number |
-| scrollViewProps (optional) | contains all props of the scrollview from React's Reanimated library | [props](https://reactnative.dev/docs/scrollview#props) |
+| additionalPadding | adds extra padding between your text input and the keyboard | number |
+| scrollViewProps | contains all props of the scrollview from React's Reanimated library | [props](https://reactnative.dev/docs/scrollview#props) |
 
 #### MagicScroll.TextInput:
 
 | Name | Description | Values |
 | ---- | ----------- | ------ |
-| chainTo (optional) | a string containing the name of the next text input that will be focused when pressing the "Enter Key" | string |
-| containerStyle (optional) | contains all Style props of the View from React Native | [props](https://reactnative.dev/docs/view-style-props) |
-| name (optional) | a string to name the current text input, used in the "chainTo" props mentionned above | string |
-| renderBottom() (optional) | a function that renders components to display custom text under the text input | ```renderBottom={() => <Text>bottomText</Text>}``` |
-| renderTop() (optional) | a function that renders components to display custom text above the text input | ```renderTop={() => <Text>topText</Text>}``` |
-| textInputProps (optional) | contains all props of the TextInput component from React Native  | [props](https://reactnative.dev/docs/textinput#props) |
+| chainTo | a string containing the name of the next text input that will be focused when pressing the "Enter Key" | string |
+| containerStyle | contains all Style props of the View from React Native | [props](https://reactnative.dev/docs/view-style-props) |
+| name | a string to name the current text input, used in the "chainTo" props mentionned above | string |
+| renderBottom() | a function that renders components to display custom text under the text input | ```renderBottom={() => <Text>bottomText</Text>}``` |
+| renderTop() | a function that renders components to display custom text above the text input | ```renderTop={() => <Text>topText</Text>}``` |
+| textInputProps | contains all props of the TextInput component from React Native  | [props](https://reactnative.dev/docs/textinput#props) |
 
