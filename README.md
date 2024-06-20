@@ -81,6 +81,14 @@ import { MagicScroll } from '@appandflow/react-native-magic-scroll';
 
 // rest of your imports
 
+const textInputStyle = {
+  height: 50,
+  backgroundColor: '#ddd',
+  borderRadius: 10,
+  marginTop: 8,
+};
+
+
 const YourForm = () => {
   return (
     <View>
@@ -94,12 +102,7 @@ const YourForm = () => {
         // This is the function that will make the text input named "password" focused when pressing the Enter key on the device's keyboard
         chainable="password"
         textInputProps={{
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 10,
-            marginTop: 8,
-          },
+          style: textInputStyle,
         }}
       />
       <MagicScroll.TextInput
@@ -107,12 +110,7 @@ const YourForm = () => {
         renderTop={() => <Text>Password</Text>}
         textInputProps={{
           secureTextEntry: true,
-          style: {
-            height: 50,
-            backgroundColor: '#ddd',
-            borderRadius: 10,
-            marginTop: 8,
-          },
+          style: textInputStyle,
         }}
       />
     </View>
@@ -171,14 +169,14 @@ Scrollview props:
 | Name | Description | Values |
 | ---- | ----------- | ------ |
 | additionalPadding | adds extra padding between your text input and the keyboard | number |
-| scrollViewProps | contains all props of the scrollview from React's Reanimated library | |
+| scrollViewProps | contains all props of the scrollview from React's Reanimated library | [props](https://reactnative.dev/docs/scrollview#props) |
 
 Text Input props:
 
 | Name | Description | Values |
 | ---- | ----------- | ------ |
 | chainable | a string containing the name of the next text input that will be focused when pressing the "Enter Key" | string |
-| containerStyle | contains all Style props of the View from React Native | |
+| containerStyle | contains all Style props of the View from React Native | [props](https://reactnative.dev/docs/view-style-props) |
 | name | a string to name the current text input, used in the "chainable" props mentionned above | string |
 | renderBottom() | a function that renders components to display custom text under the text input | ```renderBottom={() => <Text>bottomText</Text>}``` |
 | renderTop() | a function that renders components to display custom text above the text input | ```renderTop={() => <Text>topText</Text>}``` |
