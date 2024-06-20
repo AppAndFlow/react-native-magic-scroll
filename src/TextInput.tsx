@@ -11,7 +11,7 @@ type Props = {
   name?: string;
   renderTop?: () => React.ReactElement;
   renderBottom?: () => React.ReactElement;
-  chainable?: string;
+  chainTo?: string;
 };
 
 export const TextInput = (props: Props) => {
@@ -37,8 +37,8 @@ export const TextInput = (props: Props) => {
         {...baseTextInputProps(name.current, { onFocus, onBlur })}
         {...textInputProps}
         onSubmitEditing={(e) => {
-          if (props.chainable) {
-            chainInput(props.chainable);
+          if (props.chainTo) {
+            chainInput(props.chainTo);
           }
 
           onSubmitEditing?.(e);
