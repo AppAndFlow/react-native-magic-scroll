@@ -1,4 +1,5 @@
-![image](https://cdn.discordapp.com/attachments/1233084704295751750/1252345604571398288/Github_Banner.png?ex=6671e13b&is=66708fbb&hm=ff3de0eb88407a5f8b0092333786004907aeb3f3369ea593e3eb3d77ee25e599&)
+
+![magic-scroll](https://github.com/AppAndFlow/react-native-magic-scroll/assets/7192823/d3fa820e-3dfe-4d2f-abe1-48ea2c0cde26)
 
 ### About
 App & Flow is a Montreal-based, close-knit team that specializes in React Native and Expo development. We work with multiple YC-backed startups and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
