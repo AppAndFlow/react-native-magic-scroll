@@ -1,6 +1,6 @@
 import React, {
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useState,
   type PropsWithChildren,
@@ -136,9 +136,10 @@ export function useFormSmartScroll({
 
   const currentFocus = useAtomValue(currentFocusAtom);
 
-  useEffect(() => {
+  // we have a flick on first focus so we make the scrollview wait a bit before animate
+  useLayoutEffect(() => {
     if (currentFocus && !isReady) {
-      setTimeout(() => setIsReady(true), 100);
+      setTimeout(() => setIsReady(true), isAndroid ? 250 : 100);
     }
   }, [currentFocus]);
 
