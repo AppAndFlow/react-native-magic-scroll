@@ -1,6 +1,8 @@
 import React, {
   useCallback,
+  useEffect,
   useMemo,
+  useState,
   type PropsWithChildren,
   type RefObject,
 } from 'react';
@@ -125,6 +127,7 @@ export function useFormSmartScroll({
   const wrapperOffset = useAtomValue(wrapperOffsetAtom);
   const scrollY = useSharedValue(0);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const [isReady, setIsReady] = useState(false);
 
   const _keyboard = useKeyboard();
 
@@ -132,6 +135,12 @@ export function useFormSmartScroll({
   const [inputs, setInputs] = useAtom(inputsAtom);
 
   const currentFocus = useAtomValue(currentFocusAtom);
+
+  useEffect(() => {
+    if (currentFocus && !isReady) {
+      setTimeout(() => setIsReady(true), 100);
+    }
+  }, [currentFocus]);
 
   const translateStyle = useAnimatedStyle(() => {
     function value(): number {
@@ -181,7 +190,7 @@ export function useFormSmartScroll({
     }
 
     return {
-      transform: [{ translateY: withTiming(value()) }],
+      transform: [{ translateY: isReady ? withTiming(value()) : 0 }],
     };
   });
 
@@ -289,5 +298,6 @@ export function useFormSmartScroll({
     baseScrollViewProps,
     baseTextInputProps,
     currentFocus: currentFocus?.name,
+    isReady,
   };
 }
