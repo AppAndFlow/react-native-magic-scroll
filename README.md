@@ -22,7 +22,7 @@ The demo app code is available [here](https://github.com/AppAndFlow/react-native
 ### react-native-magic-scroll
 
 ```sh
-yarn install @appandflow/react-native-magic-scroll
+yarn add @appandflow/react-native-magic-scroll
 ```
 
 ```sh
