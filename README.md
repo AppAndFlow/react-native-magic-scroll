@@ -1,8 +1,8 @@
 
-![magic-scroll](https://github.com/AppAndFlow/react-native-magic-scroll/assets/7192823/d3fa820e-3dfe-4d2f-abe1-48ea2c0cde26)
+![magicscroll](https://github.com/user-attachments/assets/3ac67386-d41d-47ab-a361-bbaee7e0de0f)
 
 ### About
-App & Flow is a Montreal-based, close-knit team that specializes in React Native and Expo development. We work with multiple YC-backed startups and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
+App & Flow is a Montreal-based React Native engineering and consulting studio. We partner with the world’s top companies and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
 
 [![npm (scoped)](https://img.shields.io/npm/v/@appandflow/react-native-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/react-native-magic-scroll)
 
