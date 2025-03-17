@@ -7,10 +7,9 @@ import React, {
   type RefObject,
 } from 'react';
 import Animated, {
-  scrollTo,
   useAnimatedRef,
+  useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withTiming,
   type AnimatedScrollViewProps,
@@ -85,15 +84,15 @@ function InsideScrollView(
     additionalPadding?: number;
   }>
 ) {
-  const { scrollRef, baseScrollViewProps, translateStyle } = useFormSmartScroll(
-    { padding: props?.additionalPadding }
-  );
+  const { scrollRef, baseScrollViewProps, translateStyle, scrollHandler } =
+    useFormSmartScroll({ padding: props?.additionalPadding });
 
   return (
     <Animated.ScrollView
       ref={scrollRef}
       {...baseScrollViewProps}
       {...props.scrollViewProps}
+      onScroll={scrollHandler}
     >
       <Animated.View style={translateStyle}>{props.children}</Animated.View>
     </Animated.ScrollView>
@@ -135,6 +134,11 @@ export function useFormSmartScroll({
   const [inputs, setInputs] = useAtom(inputsAtom);
 
   const currentFocus = useAtomValue(currentFocusAtom);
+
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    console.log('event', event.contentOffset.y);
+    scrollY.value = event.contentOffset.y;
+  });
 
   // we have a flick on first focus so we make the scrollview wait a bit before animate
   useLayoutEffect(() => {
@@ -218,10 +222,6 @@ export function useFormSmartScroll({
     [inputs]
   );
 
-  useDerivedValue(() => {
-    scrollTo(scrollRef, 0, scrollY.value, false);
-  });
-
   const onFocus = useCallback(
     (name: string) => () => {
       setState((s) => ({
@@ -300,5 +300,6 @@ export function useFormSmartScroll({
     baseTextInputProps,
     currentFocus: currentFocus?.name,
     isReady,
+    scrollHandler,
   };
 }

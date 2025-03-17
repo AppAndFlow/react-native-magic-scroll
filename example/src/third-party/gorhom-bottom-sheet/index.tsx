@@ -58,6 +58,7 @@ const Example = () => {
           >
             <MagicScroll.TextInput
               name="username"
+              chainTo="first_name"
               textInputProps={{
                 placeholder: 'Username',
                 style: {
@@ -70,6 +71,7 @@ const Example = () => {
             />
             <MagicScroll.TextInput
               name="first_name"
+              chainTo="last_name"
               containerStyle={{ marginTop: 8 }}
               textInputProps={{
                 placeholder: 'First Name',
@@ -83,6 +85,7 @@ const Example = () => {
             />
             <MagicScroll.TextInput
               name="last_name"
+              chainTo="email"
               containerStyle={{ marginTop: 8 }}
               textInputProps={{
                 placeholder: 'Last Name',
@@ -96,6 +99,7 @@ const Example = () => {
             />
             <MagicScroll.TextInput
               name="email"
+              chainTo="password"
               containerStyle={{ marginTop: 8 }}
               textInputProps={{
                 placeholder: 'Email',
