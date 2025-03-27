@@ -1,21 +1,23 @@
-
 ![magicscroll](https://github.com/user-attachments/assets/3ac67386-d41d-47ab-a361-bbaee7e0de0f)
 
 ### About
-App & Flow is a Montreal-based React Native engineering and consulting studio. We partner with the world’s top companies and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. team@appandflow.com
+
+App & Flow is a Montreal-based React Native engineering and consulting studio. We partner with the world’s top companies and are recommended by [Expo](https://expo.dev/consultants). Need a hand? Let’s build together. <team@appandflow.com>
 
 [![npm (scoped)](https://img.shields.io/npm/v/@appandflow/react-native-magic-scroll.svg)](https://www.npmjs.com/package/@appandflow/react-native-magic-scroll)
 
 ## Why react-native-magic-scroll?
+
 The goal of the library is to seamlessly and precisely handle your keyboard, scrollview and inputs when interacting with forms. While other solutions offer plug-and-play functionalities, we wanted to have something more precise and with more flexibility so that it can be used in any situation.
 
 ### Examples
+
 We recreated two flows from popular apps to showcase our library in action.
 The demo app code is available [here](https://github.com/AppAndFlow/react-native-magic-scroll-demo).
 
-| Twitch's sign up  | Shop's check out |
-| ------------- | ------------- |
-| <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/c1e2b9f4-f66d-4aaf-a57d-9eb4b89400e9">  | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/4d1a23f2-c55e-414f-a564-4883dfc2c3aa">|
+| Twitch's sign up                                                                                                                 | Shop's check out                                                                                                                 |
+| -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/c1e2b9f4-f66d-4aaf-a57d-9eb4b89400e9"> | <video src="https://github.com/AppAndFlow/react-native-magic-scroll-demo/assets/129197567/4d1a23f2-c55e-414f-a564-4883dfc2c3aa"> |
 
 ## Installation
 
@@ -63,8 +65,6 @@ On Android, make sure to set `android:windowSoftInputMode` in your `AndroidManif
 }
 ```
 
-
-
 ## Basic Usage
 
 Wrap your screen within our ScrollView.
@@ -74,11 +74,7 @@ import { MagicScroll } from '@appandflow/react-native-magic-scroll';
 // rest of your imports
 
 const YourScreen = () => {
-  return (
-    <MagicScroll.ScrollView>
-      // Your form
-    </MagicScroll.ScrollView>
-  );
+  return <MagicScroll.ScrollView>// Your form</MagicScroll.ScrollView>;
 };
 
 export default YourScreen;
@@ -97,7 +93,6 @@ const textInputStyle = {
   marginTop: 8,
 };
 
-
 const YourScreen = () => {
   return (
     <MagicScroll.ScrollView>
@@ -108,6 +103,60 @@ const YourScreen = () => {
         renderTop={() => <Text>Email</Text>}
         // This is where you can design your custom label below the input
         renderBottom={() => <Text>Must be unique</Text>}
+        // This is the function that will make the text input named "password" focused when pressing the Enter or Return key on the device's keyboard
+        chainTo="password"
+        textInputProps={{
+          style: textInputStyle,
+        }}
+      />
+      <MagicScroll.TextInput
+        name="password"
+        renderTop={() => <Text>Password</Text>}
+        textInputProps={{
+          secureTextEntry: true,
+          style: textInputStyle,
+        }}
+      />
+    </MagicScroll.ScrollView>
+  );
+};
+```
+
+You can also use the renderInput function and use any kind of input
+
+```tsx
+import { MagicScroll } from '@appandflow/react-native-magic-scroll';
+// rest of your imports
+
+const textInputStyle = {
+  height: 50,
+  backgroundColor: '#ddd',
+  borderRadius: 10,
+  marginTop: 8,
+};
+
+const YourAwesomeInput = ({
+  label,
+  ...props
+}: TextInputProps & { label: string }) => {
+  return (
+    <View>
+      <Text>{label}</Text>
+      <TextInput {...props} />
+    </View>
+  );
+};
+
+const YourScreen = () => {
+  return (
+    <MagicScroll.ScrollView>
+      <MagicScroll.TextInput
+        // This is the name of this text input, used by the `chainTo` prop
+        name="email"
+        // This is where you can pass your input. You need to spread the prop object. Make sure it is the last prop
+        renderInput={(magicProps) => (
+          <YourAwesomeInput label="Email" {...magicProps} />
+        )}
         // This is the function that will make the text input named "password" focused when pressing the Enter or Return key on the device's keyboard
         chainTo="password"
         textInputProps={{
@@ -172,23 +221,23 @@ const YourCustomInput = (props: Props) => {
 ```
 
 ## Props (Optional)
-All of these props are optional. It is, however, recommended to use them to get the most out of the library. 
 
-#### MagicScroll.ScrollView:
+All of these props are optional. It is, however, recommended to use them to get the most out of the library.
 
-| Name | Description | Values |
-| ---- | ----------- | ------ |
-| additionalPadding | adds extra padding between your text input and the keyboard | number |
-| scrollViewProps | contains all props of the scrollview from React's Reanimated library | [props](https://reactnative.dev/docs/scrollview#props) |
+#### MagicScroll.ScrollView
 
-#### MagicScroll.TextInput:
+| Name              | Description                                                          | Values                                                 |
+| ----------------- | -------------------------------------------------------------------- | ------------------------------------------------------ |
+| additionalPadding | adds extra padding between your text input and the keyboard          | number                                                 |
+| scrollViewProps   | contains all props of the scrollview from React's Reanimated library | [props](https://reactnative.dev/docs/scrollview#props) |
 
-| Name | Description | Values |
-| ---- | ----------- | ------ |
-| chainTo | a string containing the name of the next text input that will be focused when pressing the "Enter Key" | string |
-| containerStyle | contains all Style props of the View from React Native | [props](https://reactnative.dev/docs/view-style-props) |
-| name | a string to name the current text input, used in the "chainTo" props mentionned above | string |
-| renderBottom() | a function that renders components to display custom text under the text input | ```renderBottom={() => <Text>bottomText</Text>}``` |
-| renderTop() | a function that renders components to display custom text above the text input | ```renderTop={() => <Text>topText</Text>}``` |
-| textInputProps | contains all props of the TextInput component from React Native  | [props](https://reactnative.dev/docs/textinput#props) |
+#### MagicScroll.TextInput
 
+| Name           | Description                                                                                            | Values                                                 |
+| -------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| chainTo        | a string containing the name of the next text input that will be focused when pressing the "Enter Key" | string                                                 |
+| containerStyle | contains all Style props of the View from React Native                                                 | [props](https://reactnative.dev/docs/view-style-props) |
+| name           | a string to name the current text input, used in the "chainTo" props mentionned above                  | string                                                 |
+| renderBottom() | a function that renders components to display custom text under the text input                         | `renderBottom={() => <Text>bottomText</Text>}`         |
+| renderTop()    | a function that renders components to display custom text above the text input                         | `renderTop={() => <Text>topText</Text>}`               |
+| textInputProps | contains all props of the TextInput component from React Native                                        | [props](https://reactnative.dev/docs/textinput#props)  |

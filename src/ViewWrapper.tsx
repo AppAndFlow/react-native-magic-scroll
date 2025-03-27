@@ -1,9 +1,10 @@
 import type { PropsWithChildren } from 'react';
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { View } from 'react-native';
-import type { ViewStyle } from 'react-native';
-import { useAtom, useAtomValue } from 'jotai';
-import { elementsAtom, wrapperViewRefAtom } from './state';
+import type { LayoutChangeEvent, ViewStyle } from 'react-native';
+import { useAtom } from 'jotai';
+import { elementsAtom } from './state';
+import { useSmartScrollContext } from './Provider';
 
 type Props = PropsWithChildren<{
   name: string;
@@ -11,41 +12,42 @@ type Props = PropsWithChildren<{
 }>;
 
 const ViewWrapper = ({ name, style, children }: Props) => {
-  const wrapperViewRef = useAtomValue(wrapperViewRefAtom);
   const [state, setState] = useAtom(elementsAtom);
+  const { wrapperRef } = useSmartScrollContext();
 
   const ref = useRef<View>(null);
 
-  return (
-    <View
-      ref={ref}
-      style={style}
-      onLayout={({ nativeEvent }) => {
-        const element = state[name];
-        if (wrapperViewRef && !state[name]) {
-          ref.current?.measureLayout(wrapperViewRef, (_, y, _w, h) => {
-            setState((s) => ({
-              ...s,
-              [name]: {
-                ...s[name],
-                isFocus: false,
-                position: y,
-                height: h,
-                name: name,
-              },
-            }));
-          });
-        } else if (element) {
-          setState({
-            ...state,
+  const onLayout = useCallback(
+    ({ nativeEvent }: LayoutChangeEvent) => {
+      const element = state[name];
+      if (wrapperRef.current && !state[name]) {
+        ref.current?.measureLayout(wrapperRef.current, (_, y, _w, h) => {
+          setState((s) => ({
+            ...s,
             [name]: {
-              ...element,
-              height: nativeEvent.layout.height,
+              ...s[name],
+              isFocus: false,
+              position: y,
+              height: h,
+              name: name,
             },
-          });
-        }
-      }}
-    >
+          }));
+        });
+      } else if (element) {
+        setState({
+          ...state,
+          [name]: {
+            ...element,
+            height: nativeEvent.layout.height,
+          },
+        });
+      }
+    },
+    [state, name, wrapperRef]
+  );
+
+  return (
+    <View ref={ref} style={style} collapsable onLayout={onLayout}>
       {children}
     </View>
   );

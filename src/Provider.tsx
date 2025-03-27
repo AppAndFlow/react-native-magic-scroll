@@ -7,12 +7,15 @@ import React, {
   type RefObject,
 } from 'react';
 import Animated, {
+  useAnimatedReaction,
   useAnimatedRef,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  type AnimatedRef,
   type AnimatedScrollViewProps,
+  type SharedValue,
 } from 'react-native-reanimated';
 import {
   TextInput,
@@ -31,26 +34,21 @@ import {
 import { selectAtom } from 'jotai/utils';
 import { Platform } from 'react-native';
 
-import {
-  elementsAtom,
-  inputsAtom,
-  wrapperOffsetAtom,
-  wrapperViewRefAtom,
-} from './state';
+import { elementsAtom, inputsAtom, wrapperOffsetAtom } from './state';
 import { useKeyboard } from './useKeyboard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const isAndroid = Platform.OS === 'android';
 
 function Wrapper(props: PropsWithChildren<{}>) {
-  const setWrapperViewRefAtom = useSetAtom(wrapperViewRefAtom);
   const setWrapperOffsetAtom = useSetAtom(wrapperOffsetAtom);
   const windowDimensions = useWindowDimensions();
+  const { wrapperRef } = useSmartScrollContext();
 
   return (
     <View
       style={styles.wrapper}
-      ref={setWrapperViewRefAtom}
+      ref={wrapperRef}
       onLayout={({ nativeEvent }) => {
         if (nativeEvent.layout.height < windowDimensions.height) {
           setWrapperOffsetAtom(
@@ -73,10 +71,52 @@ const styles = StyleSheet.create({
 export default function SmartScrollView(props: PropsWithChildren<{}>) {
   return (
     <JotaiProvider>
-      <Wrapper {...props} />
+      <SmartScrollProvider>
+        <Wrapper {...props} />
+      </SmartScrollProvider>
     </JotaiProvider>
   );
 }
+
+const SmartScrollContext = React.createContext<{
+  scrollRef: AnimatedRef<Animated.ScrollView>;
+  scrollY: SharedValue<number>;
+  isReady: boolean;
+  wrapperRef: RefObject<View>;
+} | null>(null);
+
+const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
+  const scrollY = useSharedValue(0);
+  const wrapperRef = React.useRef<View>(null);
+  const [isReady, setIsReady] = useState(false);
+  const currentFocus = useAtomValue(currentFocusAtom);
+
+  // we have a flick on first focus so we make the scrollview wait a bit before animate
+  useLayoutEffect(() => {
+    if (currentFocus && !isReady) {
+      setTimeout(() => setIsReady(true), isAndroid ? 250 : 100);
+    }
+  }, [currentFocus]);
+
+  return (
+    <SmartScrollContext.Provider
+      value={{ scrollRef, scrollY, isReady, wrapperRef }}
+    >
+      {children}
+    </SmartScrollContext.Provider>
+  );
+};
+
+export const useSmartScrollContext = () => {
+  const context = React.useContext(SmartScrollContext);
+
+  if (!context) {
+    throw new Error('Plz wrap with SmartScrollProvider');
+  }
+
+  return context;
+};
 
 function InsideScrollView(
   props: PropsWithChildren<{
@@ -84,7 +124,8 @@ function InsideScrollView(
     additionalPadding?: number;
   }>
 ) {
-  const { scrollRef, baseScrollViewProps, translateStyle, scrollHandler } =
+  const { scrollRef } = useSmartScrollContext();
+  const { baseScrollViewProps, translateStyle, scrollHandler } =
     useFormSmartScroll({ padding: props?.additionalPadding });
 
   return (
@@ -124,9 +165,8 @@ export function useFormSmartScroll({
 } = {}) {
   const insets = useSafeAreaInsets();
   const wrapperOffset = useAtomValue(wrapperOffsetAtom);
-  const scrollY = useSharedValue(0);
-  const scrollRef = useAnimatedRef<Animated.ScrollView>();
-  const [isReady, setIsReady] = useState(false);
+
+  const { isReady, scrollY, scrollRef } = useSmartScrollContext();
 
   const _keyboard = useKeyboard();
 
@@ -136,68 +176,70 @@ export function useFormSmartScroll({
   const currentFocus = useAtomValue(currentFocusAtom);
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
-    console.log('event', event.contentOffset.y);
     scrollY.value = event.contentOffset.y;
   });
 
-  // we have a flick on first focus so we make the scrollview wait a bit before animate
-  useLayoutEffect(() => {
-    if (currentFocus && !isReady) {
-      setTimeout(() => setIsReady(true), isAndroid ? 250 : 100);
-    }
-  }, [currentFocus]);
+  const translateY = useSharedValue(0);
 
-  const translateStyle = useAnimatedStyle(() => {
-    function value(): number {
-      if (!currentFocus) return 0;
+  useAnimatedReaction(
+    () => currentFocus,
+    (focus) => {
+      if (!focus) return;
 
       if (isAndroid) {
         if (
-          currentFocus.position + wrapperOffset >
-          _keyboard.coordinates.end.screenY - currentFocus.height * 2
+          focus.position + wrapperOffset >
+          _keyboard.coordinates.end.screenY - focus.height * 2
         ) {
           if (wrapperOffset) {
             const diff =
               Math.abs(
                 _keyboard.coordinates.end.screenY -
-                  currentFocus.position -
-                  currentFocus.height -
+                  focus.position -
+                  focus.height -
                   padding +
                   scrollY.value -
                   wrapperOffset
               ) + insets.top;
-            return -diff;
+            translateY.value = withTiming(-diff);
+            return;
           }
 
-          return -Math.abs(currentFocus.height / 4);
+          translateY.value = withTiming(-Math.abs(focus.height / 4));
+          return;
         }
 
-        return 0;
+        translateY.value = withTiming(0);
+
+        return;
       }
 
       if (
-        currentFocus.position + wrapperOffset >
-        _keyboard.coordinates.end.screenY - currentFocus.height + scrollY.value
+        focus.position + wrapperOffset >
+        _keyboard.coordinates.end.screenY - focus.height + scrollY.value
       ) {
         const diff = Math.abs(
           _keyboard.coordinates.end.screenY -
-            currentFocus.position -
-            currentFocus.height -
+            focus.position -
+            focus.height -
             padding +
             scrollY.value -
             wrapperOffset
         );
+        translateY.value = withTiming(-diff);
 
-        return -diff;
+        return;
       }
 
-      return 0;
+      translateY.value = withTiming(0);
     }
+  );
 
+  const translateStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: isReady ? withTiming(value()) : 0 }],
+      transform: [{ translateY: isReady ? translateY.value : 0 }],
     };
-  });
+  }, [currentFocus]);
 
   const registerInput = useCallback(
     (name: string, ref: RefObject<TextInput>) => {
@@ -208,7 +250,7 @@ export function useFormSmartScroll({
         }));
       }
     },
-    []
+    [setInputs, inputs]
   );
 
   const chainInput = useCallback(
@@ -235,7 +277,7 @@ export function useFormSmartScroll({
         },
       }));
     },
-    []
+    [setState]
   );
 
   const onBlur = useCallback(
@@ -251,7 +293,7 @@ export function useFormSmartScroll({
         },
       }));
     },
-    []
+    [setState]
   );
 
   /**
@@ -270,8 +312,8 @@ export function useFormSmartScroll({
     (
       name: string,
       params: {
-        onFocus: TextInputProps['onFocus'];
-        onBlur: TextInputProps['onBlur'];
+        onFocus?: TextInputProps['onFocus'];
+        onBlur?: TextInputProps['onBlur'];
       }
     ) => {
       return {
