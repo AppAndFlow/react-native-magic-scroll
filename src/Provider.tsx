@@ -275,8 +275,6 @@ export function useFormSmartScroll({
     }
   );
 
-  console.log({ isReady });
-
   const translateStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: isReady ? translateY.value : 0 }],
