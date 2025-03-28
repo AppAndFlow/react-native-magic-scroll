@@ -76,7 +76,6 @@ __metadata:
     eslint-config-prettier: ^9.0.0
     eslint-plugin-prettier: ^5.0.1
     jest: ^29.7.0
-    jotai: ^2.12.2
     prettier: ^3.0.3
     react: 18.3.1
     react-native: 0.76.7
@@ -11414,21 +11413,6 @@ __metadata:
   version: 1.1.0
   resolution: "join-component@npm:1.1.0"
   checksum: b904c2f98549e4195022caca3a7dc837f9706c670ff333f3d617f2aed23bce2841322a999734683b6ab8e202568ad810c11ff79b58a64df66888153f04750239
-  languageName: node
-  linkType: hard
-
-"jotai@npm:^2.12.2":
-  version: 2.12.2
-  resolution: "jotai@npm:2.12.2"
-  peerDependencies:
-    "@types/react": ">=17.0.0"
-    react: ">=17.0.0"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    react:
-      optional: true
-  checksum: 8af476c442a09be12fa5b09e2d20e47905575123a98ccb16981ee5f280af1da23a23095ee4f33fde799aed568ecee8971a39f9ed29f9ec4687f2e54180b97191
   languageName: node
   linkType: hard
 

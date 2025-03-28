@@ -2,8 +2,6 @@ import type { PropsWithChildren } from 'react';
 import React, { useCallback, useRef } from 'react';
 import { View } from 'react-native';
 import type { LayoutChangeEvent, ViewStyle } from 'react-native';
-import { useAtom } from 'jotai';
-import { elementsAtom } from './state';
 import { useSmartScrollContext } from './Provider';
 
 type Props = PropsWithChildren<{
@@ -12,17 +10,16 @@ type Props = PropsWithChildren<{
 }>;
 
 const ViewWrapper = ({ name, style, children }: Props) => {
-  const [state, setState] = useAtom(elementsAtom);
-  const { wrapperRef } = useSmartScrollContext();
+  const { wrapperRef, elements, setElements } = useSmartScrollContext();
 
   const ref = useRef<View>(null);
 
   const onLayout = useCallback(
     ({ nativeEvent }: LayoutChangeEvent) => {
-      const element = state[name];
-      if (wrapperRef.current && !state[name]) {
+      const element = elements[name];
+      if (wrapperRef.current && !elements[name]) {
         ref.current?.measureLayout(wrapperRef.current, (_, y, _w, h) => {
-          setState((s) => ({
+          setElements((s) => ({
             ...s,
             [name]: {
               ...s[name],
@@ -34,16 +31,16 @@ const ViewWrapper = ({ name, style, children }: Props) => {
           }));
         });
       } else if (element) {
-        setState({
-          ...state,
+        setElements((s) => ({
+          ...s,
           [name]: {
             ...element,
             height: nativeEvent.layout.height,
           },
-        });
+        }));
       }
     },
-    [state, name, wrapperRef]
+    [name, wrapperRef, elements]
   );
 
   return (

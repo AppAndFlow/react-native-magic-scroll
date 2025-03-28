@@ -27,25 +27,30 @@ import {
   StyleSheet,
   useWindowDimensions,
 } from 'react-native';
-import {
-  Provider as JotaiProvider,
-  useAtom,
-  useAtomValue,
-  useSetAtom,
-} from 'jotai/react';
-import { selectAtom } from 'jotai/utils';
 import { Platform } from 'react-native';
 
-import { elementsAtom, inputsAtom, wrapperOffsetAtom } from './state';
 import { useKeyboard } from './useKeyboard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+export type RefType = TextInput | View | Animated.View | null;
+
+export type Elements = Record<
+  string,
+  {
+    isFocus: boolean;
+    position: number;
+    height: number;
+    name: string;
+  }
+>;
+
+export type InputType = Record<string, RefObject<TextInput>>;
 
 const isAndroid = Platform.OS === 'android';
 
 function Wrapper(props: PropsWithChildren<{}>) {
-  const setWrapperOffsetAtom = useSetAtom(wrapperOffsetAtom);
   const windowDimensions = useWindowDimensions();
-  const { wrapperRef } = useSmartScrollContext();
+  const { wrapperRef, setWrapperOffset } = useSmartScrollContext();
 
   return (
     <View
@@ -53,9 +58,7 @@ function Wrapper(props: PropsWithChildren<{}>) {
       ref={wrapperRef}
       onLayout={({ nativeEvent }) => {
         if (nativeEvent.layout.height < windowDimensions.height) {
-          setWrapperOffsetAtom(
-            windowDimensions.height - nativeEvent.layout.height
-          );
+          setWrapperOffset(windowDimensions.height - nativeEvent.layout.height);
         }
       }}
     >
@@ -72,11 +75,9 @@ const styles = StyleSheet.create({
 
 export default function SmartScrollView(props: PropsWithChildren<{}>) {
   return (
-    <JotaiProvider>
-      <SmartScrollProvider>
-        <Wrapper {...props} />
-      </SmartScrollProvider>
-    </JotaiProvider>
+    <SmartScrollProvider>
+      <Wrapper {...props} />
+    </SmartScrollProvider>
   );
 }
 
@@ -85,14 +86,31 @@ const SmartScrollContext = React.createContext<{
   scrollY: SharedValue<number>;
   isReady: boolean;
   wrapperRef: RefObject<View>;
+  wrapperOffset: number;
+  setWrapperOffset: React.Dispatch<React.SetStateAction<number>>;
+  elements: Elements;
+  setElements: React.Dispatch<React.SetStateAction<Elements>>;
+  inputs: InputType;
+  setInputs: React.Dispatch<React.SetStateAction<InputType>>;
+  currentFocus?: null | Elements[0];
 } | null>(null);
 
 const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollY = useSharedValue(0);
   const wrapperRef = React.useRef<View>(null);
-  const [isReady, setIsReady] = useState(false);
-  const currentFocus = useAtomValue(currentFocusAtom);
+  const [isReady, setIsReady] = useState(true);
+  const [elements, setElements] = useState<Elements>({});
+  const [wrapperOffset, setWrapperOffset] = useState(0);
+  const [inputs, setInputs] = useState<InputType>({});
+
+  const currentFocus = useMemo(
+    () =>
+      Object.keys(elements)
+        .map((key) => elements[key])
+        .find((el) => el?.isFocus),
+    [elements]
+  );
 
   // we have a flick on first focus so we make the scrollview wait a bit before animate
   useLayoutEffect(() => {
@@ -103,7 +121,19 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SmartScrollContext.Provider
-      value={{ scrollRef, scrollY, isReady, wrapperRef }}
+      value={{
+        scrollRef,
+        scrollY,
+        isReady,
+        wrapperRef,
+        wrapperOffset,
+        setWrapperOffset,
+        elements,
+        setElements,
+        currentFocus,
+        inputs,
+        setInputs,
+      }}
     >
       {children}
     </SmartScrollContext.Provider>
@@ -114,7 +144,9 @@ export const useSmartScrollContext = () => {
   const context = React.useContext(SmartScrollContext);
 
   if (!context) {
-    throw new Error('Plz wrap with SmartScrollProvider');
+    throw new Error(
+      'Component must be wrapped in a SmartScrollProvider. Please ensure the provider is included.'
+    );
   }
 
   return context;
@@ -154,28 +186,24 @@ export const ScrollView = (
   );
 };
 
-const currentFocusAtom = selectAtom(elementsAtom, (val) =>
-  Object.keys(val)
-    .map((key) => val[key])
-    .find((el) => el?.isFocus)
-);
-
 export function useFormSmartScroll({
   padding = 0,
 }: {
   padding?: number;
 } = {}) {
   const insets = useSafeAreaInsets();
-  const wrapperOffset = useAtomValue(wrapperOffsetAtom);
-
-  const { isReady, scrollY, scrollRef } = useSmartScrollContext();
+  const {
+    currentFocus,
+    setElements,
+    isReady,
+    scrollY,
+    scrollRef,
+    wrapperOffset,
+    inputs,
+    setInputs,
+  } = useSmartScrollContext();
 
   const _keyboard = useKeyboard();
-
-  const setState = useSetAtom(elementsAtom);
-  const [inputs, setInputs] = useAtom(inputsAtom);
-
-  const currentFocus = useAtomValue(currentFocusAtom);
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
@@ -247,6 +275,8 @@ export function useFormSmartScroll({
     }
   );
 
+  console.log({ isReady });
+
   const translateStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: isReady ? translateY.value : 0 }],
@@ -278,7 +308,7 @@ export function useFormSmartScroll({
 
   const onFocus = useCallback(
     (name: string) => () => {
-      setState((s) => ({
+      setElements((s) => ({
         ...s,
         [name]: {
           height: 0,
@@ -289,12 +319,12 @@ export function useFormSmartScroll({
         },
       }));
     },
-    [setState]
+    [setElements]
   );
 
   const onBlur = useCallback(
     (name: string) => () => {
-      setState((s) => ({
+      setElements((s) => ({
         ...s,
         [name]: {
           height: 0,
@@ -305,7 +335,7 @@ export function useFormSmartScroll({
         },
       }));
     },
-    [setState]
+    [setElements]
   );
 
   /**
