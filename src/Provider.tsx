@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useState,
@@ -18,6 +19,7 @@ import Animated, {
   type SharedValue,
 } from 'react-native-reanimated';
 import {
+  Keyboard,
   TextInput,
   type ScrollViewProps,
   type TextInputProps,
@@ -180,6 +182,16 @@ export function useFormSmartScroll({
   });
 
   const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    const sub = Keyboard.addListener('keyboardWillHide', () => {
+      translateY.value = withTiming(0);
+    });
+
+    return () => {
+      sub.remove();
+    };
+  }, []);
 
   useAnimatedReaction(
     () => currentFocus,
