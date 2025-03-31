@@ -13,6 +13,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
   type AnimatedRef,
   type AnimatedScrollViewProps,
@@ -99,7 +100,7 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
   const scrollY = useSharedValue(0);
   const wrapperRef = React.useRef<View>(null);
-  const [isReady, setIsReady] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   const [elements, setElements] = useState<Elements>({});
   const [wrapperOffset, setWrapperOffset] = useState(0);
   const [inputs, setInputs] = useState<InputType>({});
@@ -115,7 +116,9 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
   // we have a flick on first focus so we make the scrollview wait a bit before animate
   useLayoutEffect(() => {
     if (currentFocus && !isReady) {
-      setTimeout(() => setIsReady(true), isAndroid ? 250 : 100);
+      requestAnimationFrame(() => {
+        setIsReady(true);
+      });
     }
   }, [currentFocus]);
 
@@ -276,8 +279,22 @@ export function useFormSmartScroll({
   );
 
   const translateStyle = useAnimatedStyle(() => {
+    if (!isReady && currentFocus) {
+      // On first focus, delay the animation with native driver
+      return {
+        transform: [
+          {
+            translateY: withDelay(
+              Platform.OS === 'android' ? 150 : 16,
+              withTiming(translateY.value)
+            ),
+          },
+        ],
+      };
+    }
+
     return {
-      transform: [{ translateY: isReady ? translateY.value : 0 }],
+      transform: [{ translateY: translateY.value }],
     };
   }, [currentFocus]);
 
