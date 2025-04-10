@@ -49,6 +49,7 @@ __metadata:
     babel-loader: ^8.1.0
     babel-plugin-module-resolver: ^5.0.0
     expo: ~52.0.38
+    expo-screen-orientation: ~8.0.4
     expo-status-bar: ~2.0.1
     react: 18.3.1
     react-dom: 18.3.1
@@ -75,6 +76,7 @@ __metadata:
     eslint: ^8.51.0
     eslint-config-prettier: ^9.0.0
     eslint-plugin-prettier: ^5.0.1
+    expo-screen-orientation: ^8.0.4
     jest: ^29.7.0
     prettier: ^3.0.3
     react: 18.3.1
@@ -85,6 +87,7 @@ __metadata:
     release-it: ^17.0.0
     typescript: ^5.2.2
   peerDependencies:
+    expo-screen-orientation: "*"
     react: "*"
     react-native: "*"
     react-native-reanimated: ">=2.0.0"
@@ -8613,6 +8616,26 @@ __metadata:
   bin:
     expo-pwa: build/cli.js
   checksum: 6a0de8082649913ce23e1015c786bd68218ce5e5ce58dc99d808a820055907a5ab871574fc50b3b802b3d1933749c76971be92145f4a8a178f440b693868b83c
+  languageName: node
+  linkType: hard
+
+"expo-screen-orientation@npm:^8.0.4":
+  version: 8.1.1
+  resolution: "expo-screen-orientation@npm:8.1.1"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 7808336110a49e80e57ff24a03b59a381ad19a93b083edc075ef5d0791db628a8d51638bcb1d86d4e0d80ee7d298633b3619c515e96b56ca9bdf3c59947a310b
+  languageName: node
+  linkType: hard
+
+"expo-screen-orientation@npm:~8.0.4":
+  version: 8.0.4
+  resolution: "expo-screen-orientation@npm:8.0.4"
+  peerDependencies:
+    expo: "*"
+    react-native: "*"
+  checksum: 090d56a754427c2402cfdcaabd1653e3d54d70aee67a8e7b46f4953556d9f091785dd97a749e92a841747de9be8d9adb49146d3898b2eaf1c3c4e1b11d8ac4e3
   languageName: node
   linkType: hard
 

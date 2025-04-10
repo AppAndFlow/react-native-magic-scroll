@@ -32,6 +32,7 @@ import { Platform } from 'react-native';
 
 import { useKeyboard } from './useKeyboard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useOrientation } from './useOrientation';
 
 export type RefType = TextInput | View | Animated.View | null;
 
@@ -58,7 +59,7 @@ function Wrapper(props: PropsWithChildren<{}>) {
       style={styles.wrapper}
       ref={wrapperRef}
       onLayout={({ nativeEvent }) => {
-        if (nativeEvent.layout.height < windowDimensions.height) {
+        if (nativeEvent.layout.height !== windowDimensions.height) {
           setWrapperOffset(windowDimensions.height - nativeEvent.layout.height);
         }
       }}
@@ -94,6 +95,7 @@ const SmartScrollContext = React.createContext<{
   inputs: InputType;
   setInputs: React.Dispatch<React.SetStateAction<InputType>>;
   currentFocus?: null | Elements[0];
+  clearFocus: () => void;
 } | null>(null);
 
 const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
@@ -112,6 +114,18 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
         .find((el) => el?.isFocus),
     [elements]
   );
+
+  const clearFocus = useCallback(() => {
+    if (!currentFocus) return;
+
+    setElements((els) => ({
+      ...els,
+      [currentFocus.name]: {
+        ...currentFocus,
+        isFocus: false,
+      },
+    }));
+  }, [elements, currentFocus]);
 
   // we have a flick on first focus so we make the scrollview wait a bit before animate
   useLayoutEffect(() => {
@@ -136,6 +150,7 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
         currentFocus,
         inputs,
         setInputs,
+        clearFocus,
       }}
     >
       {children}
@@ -204,6 +219,7 @@ export function useFormSmartScroll({
     wrapperOffset,
     inputs,
     setInputs,
+    clearFocus,
   } = useSmartScrollContext();
 
   const _keyboard = useKeyboard();
@@ -213,6 +229,17 @@ export function useFormSmartScroll({
   });
 
   const translateY = useSharedValue(0);
+
+  const orientation = useOrientation();
+
+  const keyboardEnd = _keyboard.coordinates.end.screenY;
+
+  useEffect(() => {
+    translateY.value = 0;
+    scrollY.value = 0;
+    clearFocus();
+    Keyboard.dismiss();
+  }, [orientation]);
 
   useEffect(() => {
     const sub = Keyboard.addListener('keyboardWillHide', () => {
@@ -230,14 +257,11 @@ export function useFormSmartScroll({
       if (!focus) return;
 
       if (isAndroid) {
-        if (
-          focus.position + wrapperOffset >
-          _keyboard.coordinates.end.screenY - focus.height * 2
-        ) {
+        if (focus.position + wrapperOffset > keyboardEnd - focus.height * 2) {
           if (wrapperOffset) {
             const diff =
               Math.abs(
-                _keyboard.coordinates.end.screenY -
+                keyboardEnd -
                   focus.position -
                   focus.height -
                   padding +
@@ -259,15 +283,16 @@ export function useFormSmartScroll({
 
       if (
         focus.position + wrapperOffset >
-        _keyboard.coordinates.end.screenY - focus.height + scrollY.value
+        keyboardEnd - focus.height + scrollY.value
       ) {
         const diff = Math.abs(
-          _keyboard.coordinates.end.screenY -
+          keyboardEnd -
             focus.position -
             focus.height -
             padding +
             scrollY.value -
-            wrapperOffset
+            wrapperOffset -
+            insets.bottom
         );
         translateY.value = withTiming(-diff);
 
