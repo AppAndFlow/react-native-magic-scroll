@@ -25,7 +25,6 @@ import {
   type ScrollViewProps,
   type TextInputProps,
   View,
-  StyleSheet,
   useWindowDimensions,
 } from 'react-native';
 import { Platform } from 'react-native';
@@ -56,7 +55,6 @@ function Wrapper(props: PropsWithChildren<{}>) {
 
   return (
     <View
-      style={styles.wrapper}
       ref={wrapperRef}
       onLayout={({ nativeEvent }) => {
         if (nativeEvent.layout.height !== windowDimensions.height) {
@@ -68,12 +66,6 @@ function Wrapper(props: PropsWithChildren<{}>) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-});
 
 export default function SmartScrollView(props: PropsWithChildren<{}>) {
   return (
