@@ -26,6 +26,8 @@ import {
   type TextInputProps,
   View,
   useWindowDimensions,
+  type ViewStyle,
+  StyleSheet,
 } from 'react-native';
 import { Platform } from 'react-native';
 
@@ -49,13 +51,14 @@ export type InputType = Record<string, RefObject<TextInput>>;
 
 const isAndroid = Platform.OS === 'android';
 
-function Wrapper(props: PropsWithChildren<{}>) {
+function Wrapper(props: PropsWithChildren<{}> & { wrapperStyle?: ViewStyle }) {
   const windowDimensions = useWindowDimensions();
   const { wrapperRef, setWrapperOffset } = useSmartScrollContext();
 
   return (
     <View
       ref={wrapperRef}
+      style={[styles.wrapper, props.wrapperStyle]}
       onLayout={({ nativeEvent }) => {
         if (nativeEvent.layout.height !== windowDimensions.height) {
           setWrapperOffset(windowDimensions.height - nativeEvent.layout.height);
@@ -66,8 +69,15 @@ function Wrapper(props: PropsWithChildren<{}>) {
     </View>
   );
 }
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});
 
-export default function SmartScrollView(props: PropsWithChildren<{}>) {
+export default function SmartScrollView(
+  props: PropsWithChildren<{}> & { wrapperStyle?: ViewStyle }
+) {
   return (
     <SmartScrollProvider>
       <Wrapper {...props} />
@@ -183,15 +193,17 @@ function InsideScrollView(
     </Animated.ScrollView>
   );
 }
-export const ScrollView = (
-  props: PropsWithChildren<{
-    scrollViewProps?: AnimatedScrollViewProps;
-    additionalPadding?: number;
-  }>
-) => {
+export const ScrollView = ({
+  wrapperStyle,
+  ...rest
+}: PropsWithChildren<{
+  scrollViewProps?: AnimatedScrollViewProps;
+  additionalPadding?: number;
+  wrapperStyle?: ViewStyle;
+}>) => {
   return (
-    <SmartScrollView>
-      <InsideScrollView {...props} />
+    <SmartScrollView wrapperStyle={wrapperStyle}>
+      <InsideScrollView {...rest} />
     </SmartScrollView>
   );
 };
