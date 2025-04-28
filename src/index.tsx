@@ -9,5 +9,5 @@ export const MagicScroll = {
   ViewWrapper,
   TextInput,
   withSmartScroll,
-  SmartScrollView,
+  ChainingProvider: SmartScrollView,
 };
