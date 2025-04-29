@@ -162,11 +162,25 @@ const SmartScrollProvider = ({ children }: { children: React.ReactNode }) => {
 
 export const useSmartScrollContext = () => {
   const context = React.useContext(SmartScrollContext);
+  const scrollY = useSharedValue(0);
+  const wrapperRef = React.useRef<View>(null);
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   if (!context) {
-    throw new Error(
-      'Component must be wrapped in a SmartScrollProvider. Please ensure the provider is included.'
-    );
+    return {
+      scrollRef,
+      scrollY: scrollY,
+      isReady: false,
+      wrapperRef,
+      wrapperOffset: 0,
+      setWrapperOffset: () => null,
+      elements: {},
+      setElements: () => null,
+      inputs: {},
+      setInputs: () => null,
+      currentFocus: undefined,
+      clearFocus: () => null,
+    };
   }
 
   return context;
